@@ -68,9 +68,9 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
     {
       $content = $text;
       $content .= '<style>';
-      $content .= '.qrcode{ width:180px; margin:auto;margin-top:10px;position:relative; text-align:center;}';
-      $content .= '.qrcode .qrcode_nr{width:210px; height:210px;border:5px solid;border-color: #2d2d2d;border-radius:15px;background:#fff; text-align:center; position:absolute; display:none;margin-top:-220px;}';
-      $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid #2d2d2d;border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:80px;bottom:-40px;}';
+      $content .= '.qrcode{ width:{SIZE}px; margin:auto;margin-top:15px;position:relative; text-align:center;}';
+      $content .= '.qrcode .qrcode_nr{width:{BACK}px; height:{BACK}px;border:5px solid;border-color: #2d2d2d;border-radius:20px;background:#fff; text-align:center; position:absolute; display:none;margin-top:{TOP}px;}';
+      $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid #2d2d2d;border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:{ARROW}px;bottom:-40px;}';
       $content .= '.qrcode.on .qrcode_nr{ display:block;}';
       $content .= '</style>';
       $content .= '<div class="qrcode" onmouseover="this.className = \'qrcode on\';" onmouseout="this.className = \'qrcode\';">';
@@ -80,6 +80,12 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
       $content .= '    </div>';
       $content .= '	<a href="javascript:;">扫描二维码，在手机上阅读</a>';
       $content .= '</div>';
+      $qrsize = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->size;
+      $qrsize = $qrsize <= 0 ? 200 : $qrsize;
+      $content = str_replace("{SIZE}", $qrsize, $content);
+      $content = str_replace("{BACK}", $qrsize+40, $content);
+      $content = str_replace("{TOP}", -1*$qrsize-55, $content);
+      $content = str_replace("{ARROW}", round(0.5*$qrsize)-5, $content);
       return $content;
     }
 
