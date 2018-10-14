@@ -5,7 +5,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package QRCode
  * @author aneasystone
- * @version 1.1
+ * @mod livrestrela
+ * @version 1.1-MOD
  * @link http://www.aneasystone.com
  */
 class QRCode_Plugin implements Typecho_Plugin_Interface
