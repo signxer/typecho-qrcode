@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function(event){
     var url = window.location.href;
     var hashIndex = url.indexOf('#');
     var qrUrl = hashIndex < 0 ? url : url.substring(0, hashIndex);
-	console.log(qrUrl);
+    
     new QRCode(document.getElementById("qrcode"), {
     	text: qrUrl,
     	width: {SIZE},
