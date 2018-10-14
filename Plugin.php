@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package QRCode
  * @author aneasystone
- * @mod livrestrela
+ * @mod signxer
  * @version 1.1-MOD
  * @link http://www.aneasystone.com
  */
@@ -68,12 +68,17 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
     {
       $content = $text;
       $content .= '<style>';
-      $content .= '  #qrcodeWrapper { margin:0 auto; text-align: center; }';
-      $content .= '  #qrcodeWrapper img { margin:0 auto; }';
+      $content .= '.qrcode{ width:180px; margin:auto;margin-top:10px;position:relative; text-align:center;}';
+      $content .= '.qrcode .qrcode_nr{width:210px; height:210px;border:5px solid;border-color: #2d2d2d;border-radius:15px;background:#fff; text-align:center; position:absolute; display:none;margin-top:-220px;}';
+      $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid #2d2d2d;border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:80px;bottom:-40px;}';
+      $content .= '.qrcode.on .qrcode_nr{ display:block;}';
       $content .= '</style>';
-      $content .= '<div id="qrcodeWrapper"">';
-      $content .= 	'<div id="qrcode"></div>';
-      $content .= 	'<div>扫描二维码，在手机上阅读！</div>';
+      $content .= '<div class="qrcode" onmouseover="this.className = \'qrcode on\';" onmouseout="this.className = \'qrcode\';">';
+      $content .= '    <div class="qrcode_nr">';
+      $content .= '        <div class="qrcode" id="qrcode"></div>';
+      $content .= '    	<div class="arrow"></div>';
+      $content .= '    </div>';
+      $content .= '	<a href="javascript:;">扫描二维码，在手机上阅读</a>';
       $content .= '</div>';
       return $content;
     }
@@ -85,7 +90,7 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
         $js =
 <<<EOL
 <script type="text/javascript">
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function(event){
 
     var qrcode = document.getElementById("qrcode");
     if (qrcode == null) {
@@ -95,7 +100,7 @@ $(document).ready(function() {
     var url = window.location.href;
     var hashIndex = url.indexOf('#');
     var qrUrl = hashIndex < 0 ? url : url.substring(0, hashIndex);
-
+	console.log(qrUrl);
     new QRCode(document.getElementById("qrcode"), {
     	text: qrUrl,
     	width: {SIZE},
