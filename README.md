@@ -4,9 +4,6 @@
 ## Bug Fix
 解决了没有使用jQuery的时候无法工作的问题。
 
-## To Do
-CSS与二维码大小变化整合，目前使用固定200。
-
 ## 其他
 请参照原项目的说明
 https://github.com/aneasystone/typecho-qrcode
