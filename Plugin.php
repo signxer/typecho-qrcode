@@ -96,13 +96,11 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
         $js =
 <<<EOL
 <script type="text/javascript">
-var runonce = true;
 function showqr(){
 	if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
           document.getElementById("qrtext").style.display = 'none';
      }
      else{
-     	if(runonce){
         var qrcode = document.getElementById("qrcode");
         if (qrcode == null) {
             return;
@@ -120,9 +118,7 @@ function showqr(){
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
-      }
-      runonce = false;
-     }
+	}
 }
 showqr();
 </script>
