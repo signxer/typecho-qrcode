@@ -8,6 +8,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * @author signxer
  * @version 1.1-MOD
  * @link http://www.aneasystone.com
+ * @link https://github.com/signxer
  */
 class QRCode_Plugin implements Typecho_Plugin_Interface
 {
@@ -47,6 +48,14 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
     	$name = new Typecho_Widget_Helper_Form_Element_Text(
     			'size', NULL, '200', _t('二维码尺寸'), _t('不宜设置的太小，对于比较长的网址生成的二维码可能不正确'));
     	$form->addInput($name);
+      	/** 二维码前景色 */
+    	$dark = new Typecho_Widget_Helper_Form_Element_Text(
+    			'dark', NULL, '#000000', _t('二维码前景色'), _t(''));
+    	$form->addInput($dark);
+        /** 二维码背景色 */
+    	$light = new Typecho_Widget_Helper_Form_Element_Text(
+    			'light', NULL, '#ffffff', _t('二维码背景色'), _t(''));
+    	$form->addInput($light);
     }
 
     /**
@@ -69,8 +78,8 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
       $content = $text;
       $content .= '<style>';
       $content .= '.qrcode{ width:{SIZE}px; margin:auto;margin-top:15px;position:relative; text-align:center;}';
-      $content .= '.qrcode .qrcode_nr{width:{BACK}px; height:{BACK}px;border:5px solid;border-color: #2d2d2d;border-radius:20px;background:#fff; text-align:center; position:absolute; display:none;margin-top:{TOP}px;}';
-      $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid #2d2d2d;border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:{ARROW}px;bottom:-40px;}';
+      $content .= '.qrcode .qrcode_nr{width:{BACK}px; height:{BACK}px;border:5px solid;border-color: {COLORD};border-radius:20px;background:{COLORL}; text-align:center; position:absolute; display:none;margin-top:{TOP}px;}';
+      $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid {COLORD};border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:{ARROW}px;bottom:-40px;}';
       $content .= '.qrcode.on .qrcode_nr{ display:block;}';
       $content .= '</style>';
       $content .= '<div class="qrcode" id="qrtext" onmouseover="this.className = \'qrcode on\';" onmouseout="this.className = \'qrcode\';">';
@@ -81,11 +90,15 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
       $content .= '	<a href="javascript:;">扫描二维码，在手机上阅读</a>';
       $content .= '</div>';
       $qrsize = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->size;
+      $colord = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->dark;
+      $colorl = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->light;
       $qrsize = $qrsize <= 0 ? 200 : $qrsize;
       $content = str_replace("{SIZE}", $qrsize, $content);
       $content = str_replace("{BACK}", $qrsize+40, $content);
       $content = str_replace("{TOP}", -1*$qrsize-55, $content);
       $content = str_replace("{ARROW}", round(0.5*$qrsize)-5, $content);
+      $content = str_replace("{COLORD}", $colord, $content);
+      $content = str_replace("{COLORL}", $colorl, $content);
       return $content;
     }
 
@@ -114,8 +127,8 @@ function showqr(){
             text: qrUrl,
             width: {SIZE},
             height: {SIZE},
-            colorDark : "#000000",
-            colorLight : "#ffffff",
+            colorDark : "{COLORD}",
+            colorLight : "{COLORL}",
             correctLevel : QRCode.CorrectLevel.H
         });
 	}
@@ -125,6 +138,11 @@ showqr();
 EOL;
         $size = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->size;
         $size = $size <= 0 ? 200 : $size;
-        echo str_replace("{SIZE}", $size, $js);
+        $colord = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->dark;
+        $colorl = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->light;
+        $js = str_replace("{SIZE}", $size, $js);
+      	$js = str_replace("{COLORD}", $colord, $js);
+      	$js = str_replace("{COLORL}", $colorl, $js);
+      	echo $js;
 	}
 }
