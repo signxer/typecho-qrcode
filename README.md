@@ -3,6 +3,8 @@
 
 同时如果使用手机访问，此行隐藏。
 
+并且增加了设置选项，可以调整二维码的前景色与背景色。
+
 ![Screenshot](https://github.com/signxer/typecho-qrcode/raw/master/Screenshot.jpg)
 
 ## Bug Fix
