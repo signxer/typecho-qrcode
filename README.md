@@ -1,5 +1,6 @@
 # typecho-qrcode-mod
 拙劣修改了aneasystone的插件，修改了bug与二维码样式，改为隐藏二维码，鼠标悬停显示。
+
 同时如果使用手机访问，此行隐藏。
 
 ![Screenshot](https://github.com/signxer/typecho-qrcode/raw/master/Screenshot.jpg)
