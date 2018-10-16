@@ -73,7 +73,7 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
       $content .= '.qrcode .qrcode_nr .arrow{ width:0; height:0; border-top:20px solid #2d2d2d;border-bottom:20px solid transparent;border-left:20px solid transparent;border-right:20px solid transparent; position:absolute;left:{ARROW}px;bottom:-40px;}';
       $content .= '.qrcode.on .qrcode_nr{ display:block;}';
       $content .= '</style>';
-      $content .= '<div class="qrcode" id="qrtext" onmouseover="showqr();this.className = \'qrcode on\';" onmouseout="this.className = \'qrcode\';">';
+      $content .= '<div class="qrcode" id="qrtext" onmouseover="this.className = \'qrcode on\';" onmouseout="this.className = \'qrcode\';">';
       $content .= '    <div class="qrcode_nr">';
       $content .= '        <div class="qrcode" id="qrcode"></div>';
       $content .= '    	<div class="arrow"></div>';
@@ -98,7 +98,11 @@ class QRCode_Plugin implements Typecho_Plugin_Interface
 <script type="text/javascript">
 var runonce = true;
 function showqr(){
-	if(runonce){
+	if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+          document.getElementById("qrtext").style.display = 'none';
+     }
+     else{
+     	if(runonce){
         var qrcode = document.getElementById("qrcode");
         if (qrcode == null) {
             return;
@@ -118,13 +122,9 @@ function showqr(){
         });
       }
       runonce = false;
+     }
 }
-
-window.onload = function(){
-	if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-          document.getElementById("qrtext").style.display = 'none';
-      }
-}
+showqr();
 </script>
 EOL;
         $size = Typecho_Widget::widget('Widget_Options')->plugin('QRCode')->size;
