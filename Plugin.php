@@ -5,6 +5,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package QRCode
  * @author aneasystone
+ * @mod	signxer
+ * @version 1.1-MOD
  * @version 1.1
  * @link http://www.aneasystone.com
  */
